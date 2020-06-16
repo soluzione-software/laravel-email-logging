@@ -1,0 +1,30 @@
+{
+    "name": "soluzione-software/laravel-email-logging",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yuriy Martini",
+            "email": "y.martini@soluzionesoftware.com",
+            "homepage": "https://github.com/yuriy-martini",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.0",
+        "illuminate/support": "^5.8",
+        "illuminate/log": "^5.8",
+        "illuminate/mail": "^5.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "SoluzioneSoftware\\EmailLogging\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+              "SoluzioneSoftware\\EmailLogging\\EmailLoggingServiceProvider"
+            ]
+        }
+    }
+}
