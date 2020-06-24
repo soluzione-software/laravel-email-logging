@@ -6,12 +6,12 @@ Adds the email driver for logging.
 
 ## Installation and usage
 
-``` bash
+```bash
 composer require soluzione-software/laravel-email-logging
 ```
 
 in `config/logging.php`:
-``` php
+```php
 return [
 
     //...
