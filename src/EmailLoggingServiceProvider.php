@@ -1,9 +1,8 @@
 <?php
 
-
 namespace SoluzioneSoftware\EmailLogging;
 
-
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
@@ -16,35 +15,33 @@ class EmailLoggingServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/email_logging.php', 'email_logging');
-
         $this->registerLogHandler();
     }
 
     protected function registerLogHandler()
     {
-        if (Config::get('email_logging.enabled')){
-            Log::extend('email', function () {
+        Log::extend('email', function ($app, array $config) {
+            $fromAddress = Arr::get($config, 'from.address', Config::get('mail.from.address'));
+            $fromName = Arr::get($config, 'from.name', Config::get('mail.from.name'));
+            $to = Arr::get($config, 'to');
+            $level = Arr::get($config, 'level', Logger::ERROR);
+
+            $logger = new Logger('email');
+
+            if (!empty($to)) {
                 /** @var Swift_Mailer $mailer */
                 $mailer = $this->app['mailer']->getSwiftMailer();
                 $message = $mailer->createMessage()
-                    ->setFrom(
-                        Config::get('email_logging.from.address'),
-                        Config::get('email_logging.from.name')
-                    )
-                    ->setTo(Config::get('email_logging.to'))
+                    ->setFrom($fromAddress, $fromName)
+                    ->setTo($to)
                     ->setContentType('text/html');
-
-                $level = Logger::getLevels()[strtoupper(Config::get('email_logging.level'))];
 
                 $handler = new SwiftMailerHandler($mailer, $message, $level);
                 $handler->setFormatter(new HtmlFormatter());
-
-                $logger = new Logger('email');
                 $logger->pushHandler($handler);
+            }
 
-                return $logger;
-            });
-        }
+            return $logger;
+        });
     }
 }

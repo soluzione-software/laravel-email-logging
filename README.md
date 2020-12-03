@@ -10,19 +10,12 @@ Adds the email driver for logging.
 composer require soluzione-software/laravel-email-logging
 ```
 
-in `config/logging.php`:
+create channel config in `config/logging.php`:
 ```php
 return [
-
     //...
 
     'channels' => [
-        'stack' => [
-            //...
-            'channels' => ['daily', 'email'],
-            //...
-        ],
-
         //...
 
         'email' => [
@@ -31,13 +24,37 @@ return [
     ],
 ];
 ```
+Then you can do like follows:
+ ```php
+ Illuminate\Support\Facades\Log::channel('email')->error('...');
+ ```
 
-## Customization
-`.env` variables:
-```dotenv
-LOG_EMAIL_ENABLED=true
-LOG_EMAIL_LEVEL=warning
-LOG_EMAIL_FROM_ADDRESS=info@example.com
-LOG_EMAIL_FROM_NAME=Example
-LOG_EMAIL_TO=support@example.com
+## Configuration
+
+See [Laravel documentation](https://laravel.com/docs/logging#configuration) for configuring channels. 
+
+In order to disable email sending, set `null` value for `to` option, like follows:
+```php
+return [
+
+    //...
+
+    'channels' => [
+        //...
+
+        'email' => [
+            //...
+            'to' => null,
+        ],
+    ],
+];
 ```
+
+### Available Configuration Options
+
+Name | Default
+------------- | -------------
+`level` | `error`
+`to` | `null`
+`from.address` | see config `mail.from.address`
+`from.name` | see config `mail.from.name`
