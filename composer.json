@@ -1,5 +1,6 @@
 {
     "name": "soluzione-software/laravel-email-logging",
+    "description": "Email logging driver for Laravel.",
     "license": "MIT",
     "authors": [
         {
@@ -11,9 +12,9 @@
     ],
     "require": {
         "php": "^7.1",
-        "illuminate/support": "^5.8|^6.0|^7.0",
-        "illuminate/log": "^5.8|^6.0|^7.0",
-        "illuminate/mail": "^5.8|^6.0|^7.0"
+        "illuminate/support": "^5.8|^6.0|^7.0|^8.0",
+        "illuminate/log": "^5.8|^6.0|^7.0|^8.0",
+        "illuminate/mail": "^5.8|^6.0|^7.0|^8.0"
     },
     "conflict": {
         "monolog/monolog": "<1.23"
